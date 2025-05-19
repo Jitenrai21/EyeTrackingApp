@@ -1,16 +1,18 @@
-import numpy as np
+import time
 
 class WinkDetector:
-    def __init__(self, threshold=4.0):
-        self.threshold = threshold
+    def __init__(self, blink_threshold=0.2, min_wink_duration=1.0):
+        self.blink_threshold = blink_threshold
+        self.min_wink_duration = min_wink_duration
+        self.left_eye_closed_since = None
+        self.right_eye_closed_since = None
+        self.last_detected_wink = None
 
     def eye_aspect_ratio(self, eye_landmarks, frame_width, frame_height):
-        # Eye vertical distance
         y1 = int(eye_landmarks[1].y * frame_height)
         y2 = int(eye_landmarks[5].y * frame_height)
         vertical = abs(y2 - y1)
 
-        # Eye horizontal distance
         x1 = int(eye_landmarks[0].x * frame_width)
         x2 = int(eye_landmarks[3].x * frame_width)
         horizontal = abs(x2 - x1)
@@ -26,8 +28,33 @@ class WinkDetector:
         left_ear = self.eye_aspect_ratio([landmarks[i] for i in LEFT_EYE], frame_width, frame_height)
         right_ear = self.eye_aspect_ratio([landmarks[i] for i in RIGHT_EYE], frame_width, frame_height)
 
-        if left_ear < 0.2 and right_ear >= 0.2:
-            return "left"
-        elif right_ear < 0.2 and left_ear >= 0.2:
-            return "right"
-        return None
+        now = time.time()
+        wink_detected = None
+
+        # Check left eye
+        if left_ear < self.blink_threshold and right_ear >= self.blink_threshold:
+            if self.left_eye_closed_since is None:
+                self.left_eye_closed_since = now
+            elif now - self.left_eye_closed_since >= self.min_wink_duration:
+                if self.last_detected_wink != 'left':
+                    wink_detected = 'left'
+                    self.last_detected_wink = 'left'
+        else:
+            self.left_eye_closed_since = None
+
+        # Check right eye
+        if right_ear < self.blink_threshold and left_ear >= self.blink_threshold:
+            if self.right_eye_closed_since is None:
+                self.right_eye_closed_since = now
+            elif now - self.right_eye_closed_since >= self.min_wink_duration:
+                if self.last_detected_wink != 'right':
+                    wink_detected = 'right'
+                    self.last_detected_wink = 'right'
+        else:
+            self.right_eye_closed_since = None
+
+        # Reset last detected wink when both eyes are open
+        if left_ear >= self.blink_threshold and right_ear >= self.blink_threshold:
+            self.last_detected_wink = None
+
+        return wink_detected

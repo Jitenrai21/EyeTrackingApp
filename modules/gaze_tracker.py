@@ -52,9 +52,9 @@ class GazeTracker:
             gaze_ratio = (left_iris[0] - x_min) / (x_max - x_min + 1e-6)
 
             if gaze_ratio < 0.4:
-                gaze_direction["left"] = "Right"
-            elif gaze_ratio > 0.6:
                 gaze_direction["left"] = "Left"
+            elif gaze_ratio > 0.6:
+                gaze_direction["left"] = "Right"
             else:
                 gaze_direction["left"] = "Center"
 
@@ -64,9 +64,9 @@ class GazeTracker:
             gaze_ratio = (right_iris[0] - x_min) / (x_max - x_min + 1e-6)
 
             if gaze_ratio < 0.4:
-                gaze_direction["right"] = "Left"
-            elif gaze_ratio > 0.6:
                 gaze_direction["right"] = "Right"
+            elif gaze_ratio > 0.6:
+                gaze_direction["right"] = "Left"
             else:
                 gaze_direction["right"] = "Center"
 
