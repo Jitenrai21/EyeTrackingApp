@@ -24,7 +24,7 @@ def run_test():
         if landmarks:
             _, left_iris, _ = gaze_tracker.estimate_gaze(landmarks, frame_width, frame_height)
             if left_iris:
-                iris_x_norm = left_iris[0] / frame_width
+                iris_x_norm = left_iris[0] / frame_width # Normalizes the iris coordinates to [0, 1] range
                 iris_y_norm = left_iris[1] / frame_height
                 controller.move_cursor_to_iris(iris_x_norm, iris_y_norm)
 

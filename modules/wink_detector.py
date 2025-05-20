@@ -2,8 +2,8 @@ import time
 
 class WinkDetector:
     def __init__(self, blink_threshold=0.2, min_wink_duration=1.0):
-        self.blink_threshold = blink_threshold
-        self.min_wink_duration = min_wink_duration
+        self.blink_threshold = blink_threshold # Threshold for EAR below which the eye is considered closed
+        self.min_wink_duration = min_wink_duration # Minimum duration (in seconds) the eye must stay closed to count as a wink
         self.left_eye_closed_since = None
         self.right_eye_closed_since = None
         self.last_detected_wink = None

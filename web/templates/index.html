@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eye Tracking App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        video {
+            margin-top: 20px;
+            width: 640px;
+            height: 480px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Eye Tracking App</h1>
+    <button id="startBtn">Start Tracking</button>
+    <button id="stopBtn">Stop Tracking</button>
+    <video id="video" autoplay muted></video>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

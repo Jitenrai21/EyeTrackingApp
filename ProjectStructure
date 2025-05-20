@@ -1,0 +1,26 @@
+EyeTrackingApp/
+│
+├── modules/
+│   ├── detector.py         # Face & landmark detection using MediaPipe
+│   ├── gaze_tracker.py     # Gaze direction estimation
+│   ├── controller.py       # Cursor movement and mouse click control
+│   └── wink_detector.py    # Detects left/right wink based on EAR
+│
+├── utils/
+│   ├── visualization.py    # Drawing facial landmarks and eye bounding boxes
+│
+├── tests/
+│   ├── test_detector.py         # Tests landmark detection
+│   ├── test_cursor.py           # Tests cursor movement logic
+│   ├── test_visualization.py    # Tests visualization/debug overlay
+│   └── test_wink.py             # Tests wink detection and click control
+├── web/
+│   ├── static/
+│   │   └── script.js         # JavaScript to handle webcam and send frames
+│   ├── templates/
+│   │   └── index.html        # HTML interface
+│   └── app.py                # Flask backend server
+│
+├── main.py                # Application entry point integrating all modules
+├── requirements.txt       # Python dependencies
+└── README.md              # Project overview and usage

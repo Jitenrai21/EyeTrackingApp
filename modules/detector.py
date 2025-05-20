@@ -3,7 +3,7 @@ import mediapipe as mp
 
 class FaceLandmarkDetector:
     def __init__(self, static_mode=False, max_faces=1, detection_confidence=0.5, tracking_confidence=0.5):
-        self.mp_face_mesh = mp.solutions.face_mesh
+        self.mp_face_mesh = mp.solutions.face_mesh # Loads the MediaPipe FaceMesh module.
         self.face_mesh = self.mp_face_mesh.FaceMesh(
             static_image_mode=static_mode,
             max_num_faces=max_faces,
