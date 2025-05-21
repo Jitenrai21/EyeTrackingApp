@@ -1,6 +1,7 @@
 import os, sys
 import cv2
 import base64
+import pyautogui
 import numpy as np
 from flask import Flask, render_template, request, jsonify
 
@@ -12,12 +13,13 @@ from modules.controller import CursorController
 
 # Initialize Flask app
 app = Flask(__name__, template_folder='templates', static_folder='static')
+screen_width, screen_height = pyautogui.size()
 
 # Initialize detection modules
 detector = FaceLandmarkDetector()
 gaze_tracker = GazeTracker()
 wink_detector = WinkDetector(blink_threshold=0.2, min_wink_duration=1.0)
-controller = CursorController(screen_width=1920, screen_height=1080)  # Adjust as per your display
+controller = CursorController(screen_width, screen_height)  # Adjust as per your display
 
 @app.route('/')
 def index():
@@ -49,9 +51,14 @@ def process_frame():
         # Gaze estimation
         gaze, left_iris, right_iris = gaze_tracker.estimate_gaze(landmarks, frame_width, frame_height)
         print("Gaze:", gaze)
-        if gaze and left_iris:
-            controller.move_cursor_to_iris(*left_iris)
+        if gaze and left_iris and right_iris:
+            iris_x_norm = (left_iris[0] + right_iris[0]) / 2 / frame_width
+            iris_y_norm = (left_iris[1] + right_iris[1]) / 2 / frame_height
+            controller.move_cursor_to_iris(iris_x_norm, iris_y_norm)
             response['gaze'] = gaze
+        # if gaze and left_iris:
+        #     controller.move_cursor_to_iris(*left_iris)
+        #     response['gaze'] = gaze
 
         # Wink detection
         wink = wink_detector.detect_wink(landmarks, frame_width, frame_height)
