@@ -22,22 +22,32 @@ This project is a full-stack implementation of a real-time eye-tracking web appl
 
 ## 🚀 Project Structure
 ```
-project/
+EyeTrackingApp/
 │
-├── static/ # Frontend JS script
-│ └── script.js
+├── modules/
+│   ├── detector.py         # Face & landmark detection using MediaPipe
+│   ├── gaze_tracker.py     # Gaze direction estimation
+│   ├── controller.py       # Cursor movement and mouse click control
+│   └── wink_detector.py    # Detects left/right wink based on EAR
 │
-├── templates/ # HTML template
-│ └── index.html
+├── utils/
+│   ├── visualization.py    # Drawing facial landmarks and eye bounding boxes
 │
-├── modules/ # Detection and tracking logic
-│ ├── detector.py
-│ ├── gaze_tracker.py
-│ ├── wink_detector.py
-│ └── controller.py
+├── tests/
+│   ├── test_detector.py         # Tests landmark detection
+│   ├── test_cursor.py           # Tests cursor movement logic
+│   ├── test_visualization.py    # Tests visualization/debug overlay
+│   └── test_wink.py             # Tests wink detection and click control
+├── web/
+│   ├── static/
+│   │   └── script.js         # JavaScript to handle webcam and send frames
+│   ├── templates/
+│   │   └── index.html        # HTML interface
+│   └── app.py                # Flask backend server
 │
-├── app.py # Flask application entry point
-└── README.md # Project documentation
+├── main.py                # Application entry point integrating all modules
+├── requirements.txt       # Python dependencies
+└── README.md              # Project overview and usage
 ```
 
 
